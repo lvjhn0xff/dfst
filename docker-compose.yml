@@ -1,0 +1,74 @@
+name: ${DFST_VERSIONED_NAME}
+
+# --------
+# SERVICES
+# --------
+services: 
+  #------------
+  # DNS Service
+  # -----------
+  dns:
+    build: 
+      context: ./setup/dnsmasq
+      dockerfile: Dockerfile 
+      args: 
+        ALPINE_VERSION: ${SVC_DNS_ALPINE_VERSION}
+    image: mxlvjhn/dfst-dnsmasq:${DFST_VERSION}  
+    container_name: ${DFST_VERSIONED_NAME}-dns
+    restart: always 
+    volumes: 
+      - ./setup/dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf 
+      - ${DFST_DATA_DIR}/dns/mappings:/etc/dnsmasq.d/
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    networks: 
+      net: 
+        ipv4_address: ${DFST_DNS_IP}    
+
+  # -------------
+  # Caddy Service
+  # -------------
+  caddy: 
+    build: 
+      context: ./setup/caddy 
+      dockerfile: Dockerfile 
+      args: 
+        CADDY_VERSION: ${SVC_DNS_CADDY_VERSION}
+    container_name: ${DFST_VERSIONED_NAME}-caddy
+    restart: always 
+    volumes: 
+      - caddy-data:/data/caddy
+      - caddy-config:/config
+      - ./setup/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./setup/caddy/start.sh:/home/caddy/start.sh
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    command: sh /home/caddy/start.sh
+
+# --------
+# NETWORKS 
+# --------
+networks: 
+  net: 
+    name: ${DFST_VERSIONED_NAME}-dns-net
+    driver: bridge 
+    ipam:
+      driver: default
+      config:
+        - subnet: ${DFST_DNS_NET_SUBNET}
+          gateway: ${DFST_DNS_NET_GATEWAY}     
+
+# --------
+# VOLUMES 
+# --------
+volumes:
+  # --------------------
+  # CADDY SERVER VOLUMES
+  # --------------------
+  caddy-data: 
+    name: ${DFST_VERSIONED_NAME}-caddy-data
+    driver: local
+  caddy-config: 
+    name: ${DFST_VERSIONED_NAME}-caddy-config
+    driver: local
+      

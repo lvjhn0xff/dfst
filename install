@@ -1,0 +1,19 @@
+#!/bin/bash 
+
+sudo echo -n ""
+
+# Load configuration.
+echo "Loading configuration..."
+source .env 
+
+# Make install directory.
+echo "Making installation directory..."
+sudo mkdir -p ${DFST_INSTALL_DIR}/${DFST_SUBNAME}
+ 
+# Copy files in install directory.
+echo "Copying files in installation directory..." 
+sudo sudo cp -r . ${DFST_INSTALL_DIR}/${DFST_SUBNAME}
+
+# Program finished.
+echo "Done."
+

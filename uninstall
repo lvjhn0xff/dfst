@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Load configuration file. 
+echo "Loading configuration file."
+source .env
+
+# Remove installation files.
+echo "Removing installation files."
+rm -rf /opt/dfst/${DFST_VERSION}
+
+# Program finished.
+echo "Done."
