@@ -1,3 +1,3 @@
 #!/bin/bash
 source env/bin/activate
-python3 -m scripts.misc.compose $@
+python3 -m scripts.compose $@

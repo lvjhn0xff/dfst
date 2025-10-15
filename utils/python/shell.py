@@ -1,14 +1,15 @@
 import sys 
 import subprocess
 
-def run():
+def run(command):
     """ 
         Execute a command a get output.
     """ 
     result = subprocess.run(
         command,
         capture_output=True,  
-        text=True            
+        text=True,
+        shell=True
     )
     return result.stdout
 

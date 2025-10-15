@@ -1,3 +1,13 @@
+{
+    pki {
+        ca local {
+            name "DFST - Version 1 - Caddy Server CA"
+			root_cn "DFST - Version 1 - Caddy Server CA"
+			intermediate_cn "DFST - Version 1 - Caddy Server CA"
+        }
+    }
+}
+
 localhost {
 	respond "Hello! - from Caddy Server"
 }

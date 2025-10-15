@@ -12,5 +12,7 @@ mkdir -p ${DFST_DATA_DIR}/dns
 mkdir -p ${DFST_DATA_DIR}/dns/mappings
 mkdir -p ${DFST_DATA_DIR}/certs 
 
+chown $USER:$USER -R  ${DFST_DATA_DIR}
+
 # Program finished. 
 echo "Done."

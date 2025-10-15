@@ -1,8 +1,11 @@
 import click 
 
 from cli.root import dfst
+import json
 
 from utils.python.shell import run 
+from utils.python.network import ip_list
+
 import os 
 
 @dfst.group("project")
@@ -18,12 +21,35 @@ def enter(service):
 
         SERVICE is the name of the service to enter.
     """
-    os.system(f"bash scripts/project/enter.sh {service}")
+    vars_ = "PROJECT_RAW_CLI=\"true\""
+    command = f"""
+        cd {os.environ.get("PROJECT_PATH")} && 
+        {vars_} bash docker-compose up -d {service} > /dev/null 2>&1 && 
+        bash docker-compose exec -e {vars_} -it {service} sh
+    """
+    os.system(command)
+    
 
 @project.command("run")
 @click.argument("service")
 @click.argument("command", nargs=-1)
 def run(service, command): 
     """ Executes a script in a service in the project (sh). """
-    os.system(f"bash scripts/project/run.sh {service} {" ".join(list(command))}")
-    
+    vars_ = "PROJECT_RAW_CLI=\"true\""
+    commands = f"""
+        cd {os.environ.get("PROJECT_PATH")} && 
+        {vars_} bash docker-compose up -d {service} > /dev/null 2>&1 && 
+        bash docker-compose exec -e {vars_} {service} {" ".join(command)}
+    """
+    os.system(commands)
+        
+
+@project.command("ip-list")
+def run(): 
+    """ Shows services mapped to their IPs as JSON. """
+    ip_mapping = ip_list(
+        os.environ.get("PROJECT_FULL_NAME"),
+        os.environ.get("PROJECT_NETWORK_MAIN")
+    )
+    sorted_mapping = dict(sorted(ip_mapping.items()))
+    click.echo(json.dumps(sorted_mapping, indent=4)) 
