@@ -25,6 +25,12 @@ COMPOSE_FILES = [
     f"{SERVICES_PATH}/docker-compose.yml"
 ]
 
+BASE_PATH = f"{SERVICES_PATH}/@base"
+BASE_FILES = os.listdir(BASE_PATH)
+
+for BASE_FILE in BASE_FILES:
+    COMPOSE_FILES.append(f"{SERVICES_PATH}/@base/{BASE_FILE}") 
+
 SERVICES = [
     FILE for FILE in os.listdir(SERVICES_PATH) 
     if not os.path.isfile(os.path.join(SERVICES_PATH, FILE))
