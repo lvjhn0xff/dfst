@@ -1,0 +1,4 @@
+#!/bin/bash
+git clone --depth=1 https://github.com/lvjhn0xff/dfst.git /tmp/dfst 
+cd /tmp/dfst 
+bash install
