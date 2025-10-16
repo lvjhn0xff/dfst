@@ -22,10 +22,11 @@ def enter(service):
         SERVICE is the name of the service to enter.
     """
     vars_ = "PROJECT_RAW_CLI=\"true\""
+    user = os.environ.get("PROJECT_USER")
     command = f"""
         cd {os.environ.get("PROJECT_PATH")} && 
         {vars_} bash docker-compose up -d {service} > /dev/null 2>&1 && 
-        bash docker-compose exec -e {vars_} -it {service} sh
+        bash docker-compose exec -e {vars_} --user {user} -it {service} sh
     """
     os.system(command)
     
@@ -36,10 +37,47 @@ def enter(service):
 def run(service, command): 
     """ Executes a script in a service in the project (sh). """
     vars_ = "PROJECT_RAW_CLI=\"true\""
+    user = os.environ.get("PROJECT_USER")
     commands = f"""
         cd {os.environ.get("PROJECT_PATH")} && 
         {vars_} bash docker-compose up -d {service} > /dev/null 2>&1 && 
-        bash docker-compose exec -e {vars_} {service} {" ".join(command)}
+        bash docker-compose exec -e {vars_} --user {user}  {service} \n
+        {" ".join(command)}
+    """
+    os.system(commands)
+
+
+
+@project.command("enter-as-root")
+@click.argument("service")
+def enter(service): 
+    """ 
+        Enter a service in the project (sh). 
+
+        SERVICE is the name of the service to enter.
+    """
+    vars_ = "PROJECT_RAW_CLI=\"true\""
+    user = "root"
+    command = f"""
+        cd {os.environ.get("PROJECT_PATH")} && 
+        {vars_} bash docker-compose up -d {service} > /dev/null 2>&1 && 
+        bash docker-compose exec -e {vars_} --user {user} -it {service} sh
+    """
+    os.system(command)
+    
+
+@project.command("run-as-root", context_settings=dict(ignore_unknown_options=True))
+@click.argument("service")
+@click.argument("command", nargs=-1)
+def run(service, command): 
+    """ Executes a script in a service in the project (sh). """
+    vars_ = "PROJECT_RAW_CLI=\"true\""
+    user = "root"
+    commands = f"""
+        cd {os.environ.get("PROJECT_PATH")} && 
+        {vars_} bash docker-compose up -d {service} > /dev/null 2>&1 && 
+        bash docker-compose exec -e {vars_} --user {user} {service} \
+        {" ".join(command)}
     """
     os.system(commands)
         
