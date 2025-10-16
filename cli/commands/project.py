@@ -67,14 +67,3 @@ def off():
     project_path = os.environ.get("PROJECT_PATH")
     off_script = os.environ.get("PROJECT_SCRIPT_OFF")
     os.system(f"cd {project_path} && bash {off_script}")
-
-
-@project.command("frontend-only")
-def frontend_only(): 
-    """ 
-        Removes full-stack features and turns the project 
-        to a front-end only app. 
-    """
-    project_path = os.environ.get("PROJECT_PATH")
-    feo_script = os.environ.get("PROJECT_SCRIPT_FEO")
-    os.system(f"cd {project_path} && bash {feo_script}")
