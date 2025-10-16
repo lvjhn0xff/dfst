@@ -7,5 +7,14 @@ Dockerized Full-Stack Templates  
 Run the following command in the terminal.
 
 ```plaintext
-VERSION=1.0.0 curl -fsSL https://raw.githubusercontent.com/lvjhn0xff/dfst/refs/tags/$VERSION/web-install | bash
+MAJOR_VERSION=1
+
+cd ~/Downloads 
+
+git clone --branch ${VERSION}.0.0 --depth 1 https://github.com/lvjhn0xff/dfst.git dfst
+cd dfst 
+bash install
+
+# Replace 1 with major version of DFST.
+echo "DFST${MAJOR_VERSION}_VERSION=/opt/dfst/${MAJOR_VERSION}/main" >> ~/.bashrc
 ```
