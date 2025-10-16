@@ -30,7 +30,7 @@ def enter(service):
     os.system(command)
     
 
-@project.command("run")
+@project.command("run", context_settings=dict(ignore_unknown_options=True))
 @click.argument("service")
 @click.argument("command", nargs=-1)
 def run(service, command): 
@@ -53,3 +53,17 @@ def run():
     )
     sorted_mapping = dict(sorted(ip_mapping.items()))
     click.echo(json.dumps(sorted_mapping, indent=4)) 
+
+@project.command("on")
+def on(): 
+    """ Turns the project on. """
+    project_path = os.environ.get("PROJECT_PATH")
+    on_script = os.environ.get("PROJECT_SCRIPT_ON")
+    os.system(f"cd {project_path} && bash {on_script}")
+
+@project.command("off")
+def off(): 
+    """ Turns the project on. """
+    project_path = os.environ.get("PROJECT_PATH")
+    off_script = os.environ.get("PROJECT_SCRIPT_OFF")
+    os.system(f"cd {project_path} && bash {off_script}")
