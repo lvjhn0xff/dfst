@@ -41,7 +41,7 @@ def run(service, command):
     commands = f"""
         cd {os.environ.get("PROJECT_PATH")} && 
         {vars_} bash docker-compose up -d {service} > /dev/null 2>&1 && 
-        bash docker-compose exec -e {vars_} --user {user}  {service} \n
+        bash docker-compose exec -e {vars_} --user {user} {service} \
         {" ".join(command)}
     """
     os.system(commands)
