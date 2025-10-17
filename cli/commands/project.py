@@ -26,7 +26,7 @@ def enter(service):
     command = f"""
         cd {os.environ.get("PROJECT_PATH")} && 
         {vars_} bash docker-compose up -d {service} > /dev/null 2>&1 && 
-        bash docker-compose exec -e {vars_} --user {user} -it {service} sh
+        bash docker-compose run -e {vars_} --user {user} -it {service} sh
     """
     os.system(command)
     
@@ -41,7 +41,7 @@ def run(service, command):
     commands = f"""
         cd {os.environ.get("PROJECT_PATH")} && 
         {vars_} bash docker-compose up -d {service} > /dev/null 2>&1 && 
-        bash docker-compose exec -e {vars_} --user {user} {service} \
+        bash docker-compose run -e {vars_} --user {user} {service} \
         {" ".join(command)}
     """
     os.system(commands)
@@ -61,7 +61,7 @@ def enter(service):
     command = f"""
         cd {os.environ.get("PROJECT_PATH")} && 
         {vars_} bash docker-compose up -d {service} > /dev/null 2>&1 && 
-        bash docker-compose exec -e {vars_} --user {user} -it {service} sh
+        bash docker-compose run -e {vars_} --user {user} -it {service} sh
     """
     os.system(command)
     
@@ -76,7 +76,7 @@ def run(service, command):
     commands = f"""
         cd {os.environ.get("PROJECT_PATH")} && 
         {vars_} bash docker-compose up -d {service} > /dev/null 2>&1 && 
-        bash docker-compose exec -e {vars_} --user {user} {service} \
+        bash docker-compose run -e {vars_} --user {user} {service} \
         {" ".join(command)}
     """
     os.system(commands)
