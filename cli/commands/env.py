@@ -61,13 +61,13 @@ def first_time_setup():
 @env.command("user-reset")
 def user_reset(): 
     """ 
-        First time set-up.
+        Resets DFST for the current user.
     """
     os.system("bash scripts/user-reset.sh")
 
 @env.command("user-setup")
 def user_setup(): 
     """ 
-        First time set-up.
+        Sets up DFST for the current user.
     """
     os.system("bash scripts/user-setup.sh")
