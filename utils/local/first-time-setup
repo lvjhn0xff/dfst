@@ -1,0 +1,18 @@
+#!/bin/bash
+source context 
+
+# Install cerfificates.
+echo ":: Installing certificates (using mkcert)."
+bash utils/local/certs/issue-certs 
+
+# Install back-end dependencies.
+echo ":: Installing back-end dependencies."
+bash utils/exec backend npm install
+
+# Install front-end web dependencies.
+echo ":: Installing front-end web dependencies."
+bash utils/exec frontend-web npm install
+
+# Install front-end mobile dependencies.
+echo ":: Installing front-end mobile dependencies."
+bash utils/exec frontend-mobile npm install

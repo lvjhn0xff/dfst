@@ -1,0 +1,4 @@
+#!/bin/bash
+source context 
+
+echo $(date -d "+$PROJECT_CRT_RENEW_DAYS days")

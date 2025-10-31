@@ -1,0 +1,13 @@
+#!/bin/bash
+source context 
+
+ENTRIES=$(bash utils/dns-entry) 
+
+echo ":: Publishing entries."
+
+docker run --rm -i \
+  -v "dfst-dns-data:/zones" \
+  "$PROJECT_ALPINE_VERSION" \
+  sh -c "cat > /zones/${PROJECT_NAME}.conf" <<< "$ENTRIES"
+
+echo "Done."

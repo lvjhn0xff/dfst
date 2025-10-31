@@ -1,0 +1,5 @@
+#!/bin/bash
+source context
+
+bash utils/dns-publish 
+bash utils/dns-reload

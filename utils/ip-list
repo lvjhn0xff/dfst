@@ -1,0 +1,25 @@
+#!/bin/bash
+set -euo pipefail
+
+# Load project context (should define PROJECT_NAME)
+source context
+
+DOCKER_COMPOSE="bash docker-compose"   # or "docker compose"
+NETWORK="${PROJECT_NAME}_main"
+
+# Ensure network exists
+if ! docker network inspect "$NETWORK" &>/dev/null; then
+    echo "Error: network '$NETWORK' not found." >&2
+    exit 1
+fi
+
+# Inspect network, extract container names and IPs, and remove prefix
+docker network inspect "$NETWORK" | jq -r --arg prefix "${PROJECT_NAME}_" '
+  .[0].Containers
+  | to_entries
+  | map({
+      # remove prefix from container name and extract IP
+      (.value.Name | ltrimstr($prefix)): (.value.IPv4Address | split("/")[0])
+    })
+  | add // {}
+'

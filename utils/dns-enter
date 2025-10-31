@@ -1,0 +1,4 @@
+#!/bin/bash 
+source context
+
+docker exec -it ${COREDNS_CONTAINER_NAME}-debug sh 

@@ -1,0 +1,21 @@
+#!/bin/bash
+source context 
+
+# Create DNSMasq container.
+docker run \
+  -d \
+  --name $COREDNS_CONTAINER_NAME \
+  --network dfst-net \
+  --ip $COREDNS_IP \
+  -v ./utils/config/coredns/Corefile:/Corefile:ro \
+  -v dfst-dns-data:/zones \
+  "$COREDNS_IMAGE"
+
+docker run \
+  -d \
+  --name $COREDNS_CONTAINER_NAME-debug \
+  --network dfst-net \
+  -v ./utils/config/coredns/Corefile:/Corefile:ro \
+  -v dfst-dns-data:/zones \
+  "$PROJECT_ALPINE_VERSION" tail -f /dev/null
+

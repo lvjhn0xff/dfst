@@ -1,0 +1,13 @@
+#!/bin/bash 
+source context 
+
+DATE_TO_CHECK=$(cat ./certs/renew-date)
+NOW=$(date +%s)
+TARGET=$(date -d "$DATE_TO_CHECK" +%s)
+
+if (( NOW > TARGET )); then
+    echo "----- Certificates expired, updating."
+    bash utils/local/certs/issue-certs
+else
+    echo "----- Certificates not yet expired, not updating."
+fi

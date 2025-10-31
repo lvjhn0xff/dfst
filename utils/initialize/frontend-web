@@ -1,0 +1,14 @@
+#!/bin/bash 
+source context
+
+echo ":: Downloading source..."
+bash utils/root-exec frontend-web npm create vite@latest tmp
+
+echo ":: Copying temporary directory for project..."
+bash utils/root-exec frontend-web cp -r frontend-web/. .
+
+echo ":: Removing temporary directory of project..."
+bash utils/root-exec frontend-web rm -rf frontend-web
+
+echo ":: Fixing permissions..."
+bash utils/fix-permissions frontend-web

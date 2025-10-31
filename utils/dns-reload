@@ -1,0 +1,6 @@
+#!/bin/bash 
+source context
+
+echo ":: Reloading DNS."
+docker kill -s HUP ${COREDNS_CONTAINER_NAME}
+echo "Done."

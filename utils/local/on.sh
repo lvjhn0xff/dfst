@@ -1,0 +1,11 @@
+#!/bin/bash 
+source context 
+
+echo ":: Check if certificates should be updates." 
+bash utils/local/certs/auto-update-certs
+
+echo ":: Running services in detached mode."
+bash docker-compose up -d 
+
+echo ":: Updating DNS entries"
+bash utils/dns-update

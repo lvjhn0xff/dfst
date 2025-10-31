@@ -1,0 +1,5 @@
+#!/bin/bash 
+source context 
+
+bash utils/exec cert-renewer bash utils/local/certs/get-certificates
+bash utils/local/certs/get-renew-date > ./certs/renew-date

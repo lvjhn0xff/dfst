@@ -1,0 +1,10 @@
+#!/bin/bash
+source context
+
+# Fix permissions through a proxy container.
+echo "Fixing permissions through a container."
+docker run --rm \
+    -v ./source:/source alpine \
+    sh -c "chown -R $PROJECT_USER /source/$1"
+
+echo "Done."

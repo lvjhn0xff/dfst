@@ -1,0 +1,4 @@
+#!/bin/bash
+source context 
+
+docker exec -it ${DNSMASQ_CONTAINER_NAME} ls /etc/dnsmasq.d/

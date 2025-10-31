@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "Removing DFST network..." 
+docker network rm dfst-net 
+
+echo "Removing DFST DNS data..." 
+docker volume rm dfst-dns-data
+

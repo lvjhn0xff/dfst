@@ -1,0 +1,8 @@
+#!/bin/bash
+source context
+
+mkcert \
+    --cert-file certs/tls.crt \
+    --key-file certs/tls.key \
+    "${PROJECT_FULL_DOMAIN_LOCAL}" \
+    "*.${PROJECT_FULL_DOMAIN_LOCAL}" 

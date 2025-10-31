@@ -1,0 +1,10 @@
+#!/bin/bash
+source context 
+
+# Created mounted volume for DNSMasq.
+echo ":: Creating mounted volume for DNSMasq data." 
+docker volume create dfst-dns-data
+
+# Creating network for DFST 
+echo ":: Creating network for shared services of DFST-based projects."
+docker network create --subnet=172.20.0.0/16 dfst-net

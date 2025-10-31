@@ -1,0 +1,15 @@
+#!/bin/bash
+source context
+
+ROUTER_IP=$(bash utils/ip-of frontend-web)
+
+cat <<EOF
+${PROJECT_FULL_DOMAIN_LOCAL} {
+    hosts {
+        ${ROUTER_IP} ${PROJECT_FULL_DOMAIN_LOCAL} *.${PROJECT_FULL_DOMAIN_LOCAL}
+        fallthrough
+    }
+    cache 300
+    log
+}
+EOF

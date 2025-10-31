@@ -1,0 +1,9 @@
+#!/bin/bash
+source context 
+
+git init --initial-branch=main
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin ${PROJECT_GITHUB_REPO}
+git push -u origin main

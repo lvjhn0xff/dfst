@@ -1,0 +1,14 @@
+#!/bin/bash 
+source context 
+
+echo ":: Downloading source..."
+bash utils/root-exec backend npm init adonisjs@latest tmp
+
+echo ":: Copying temporary directory for project..."
+bash utils/root-exec backend cp -r backend/. .
+
+echo ":: Removing temporary directory of project..."
+bash utils/root-exec backend rm -rf backend/
+
+echo ":: Fixing permissions..."
+bash utils/fix-permissions frontend-backend

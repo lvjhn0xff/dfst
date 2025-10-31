@@ -1,0 +1,14 @@
+#!/bin/bash 
+source context 
+
+echo ":: Downloading source..."
+bash utils/root-exec frontend-mobile npm create vite@latest tmp
+
+echo ":: Copying temporary directory for project..."
+bash utils/root-exec frontend-mobile cp -r frontend-mobile/. .
+
+echo ":: Removing temporary directory of project..."
+bash utils/root-exec frontend-mobile rm -rf frontend-mobile/
+
+echo ":: Fixing permissions..."
+bash utils/fix-permissions frontend-mobile

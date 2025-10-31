@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "Removing containers, images, volumes, and networks..." 
+bash docker-compose down --rmi all -v
