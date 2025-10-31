@@ -61,7 +61,7 @@ def main():
     ROUNDS = 100
     DURATION = "30s"
     CONCURRENCY = 1000
-    RESULTS_FILE = "benchmark/results.txt"
+    RESULTS_FILE = "./template/benchmark/results.txt"
 
     with open(RESULTS_FILE, "a") as f:
         log("============================================================", f)
