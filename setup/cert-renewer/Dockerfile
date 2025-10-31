@@ -1,9 +1,15 @@
 ARG ALPINE_VERSION=alpine:3.22.2
 
-# Local Build
-FROM ${ALPINE_VERSION} as local
+# -----------
+# LOCAL BUILD 
+# -----------
+FROM ${ALPINE_VERSION} as main
+
+# Add Bash
 RUN apk add --no-cache bash curl ca-certificates openssl nss go git build-base \
     && sed -i 's|/bin/ash|/bin/bash|' /etc/passwd
+
+# Install mkcert
 RUN git clone https://github.com/FiloSottile/mkcert.git /tmp/mkcert \
     && cd /tmp/mkcert \
     && go build -o /usr/local/bin/mkcert .

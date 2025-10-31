@@ -66,6 +66,9 @@ services:
       - ../start/backend.sh:/home/project/start.sh
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro 
+    secrets: 
+      - source: env_secrets_file
+        target: /run/secrets/.env.secrets
     networks: 
       - main
 
@@ -98,6 +101,9 @@ services:
       - ../start/frontend-web.sh:/home/project/start.sh 
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro 
+    secrets: 
+      - source: env_secrets_file
+        target: /run/secrets/.env.secrets
     networks: 
       - main
    
@@ -125,6 +131,9 @@ services:
       - ../start/frontend-mobile.sh:/home/project/start.sh 
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro 
+    secrets: 
+      - source: env_secrets_file
+        target: /run/secrets/.env.secrets
     networks: 
       - main
 
@@ -148,3 +157,10 @@ volumes:
     driver: local
   frontend-mobile-npm: 
     driver: local
+
+# -------
+# SECRETS 
+# ------- 
+secrets: 
+  env_secrets_file: 
+    file: ${PROJECT_SECRETS_FILE}

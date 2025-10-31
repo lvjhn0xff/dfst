@@ -6,5 +6,5 @@ docker compose \
     -f compose/docker-compose.${PROJECT_MODE}.yml \
     -f compose/routers/compose.${PROJECT_ROUTER}.yml \
     --env-file .env \
-    --env-file .env.secrets \
+    --env-file ${PROJECT_SECRETS_FILE} \
     $@

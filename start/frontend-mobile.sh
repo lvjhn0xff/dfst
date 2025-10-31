@@ -3,6 +3,12 @@ cd /home/project/source
 
 echo "PROJECT_SHELL_MODE=$PROJECT_SHELL_MODE"
 
+# Load secrets file. 
+set -a 
+source /run/secrets/.env.secrets 
+set +a
+
+# Determine which mode to run.
 if [ "$PROJECT_SHELL_MODE" = "cli" ] ; then
     echo "CLI mode active..."
     sleep infinity
