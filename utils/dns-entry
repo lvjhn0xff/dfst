@@ -1,12 +1,23 @@
 #!/bin/bash
+set -euo pipefail
 source context
 
 ROUTER_IP=$(bash utils/ip-of frontend-web)
+SERVICE_IPS=$(bash utils/ip-list)
 
 cat <<EOF
 ${PROJECT_FULL_DOMAIN_LOCAL} {
     hosts {
         ${ROUTER_IP} ${PROJECT_FULL_DOMAIN_LOCAL} *.${PROJECT_FULL_DOMAIN_LOCAL}
+EOF
+
+# Append all service entries
+echo "$SERVICE_IPS" | jq -r '
+  to_entries[] |
+  "        \(.value) \(.key).services.'${PROJECT_FULL_DOMAIN_LOCAL}'"
+'
+
+cat <<EOF
         fallthrough
     }
     cache 300

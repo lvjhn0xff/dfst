@@ -2,5 +2,5 @@
 source context
 
 echo ":: Restarting DNS."
-docker restart ${DNSMASQ_CONTAINER_NAME}
+docker restart ${COREDNS_CONTAINER_NAME}
 echo "Done."

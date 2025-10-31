@@ -1,7 +1,7 @@
 # -----------------
 # BASE COMPOSE FILE
 # -----------------
-name: ${PROJECT_NAME}
+name: ${PROJECT_FULL_NAME}
 
 # --- Set Up Services --- # 
 services: 
@@ -14,7 +14,7 @@ services:
   # CERTIFICATE RENEWER
   # ------------------- 
   cert-renewer:
-    container_name: ${PROJECT_NAME}_cert-renewer 
+    container_name: ${PROJECT_FULL_NAME}_cert-renewer 
     build: 
       context: ../setup/cert-renewer 
       dockerfile: Dockerfile
@@ -140,8 +140,9 @@ services:
 # --------
 # NETWORKS
 # --------
-networks: 
+networks:   
   main: 
+    name: ${PROJECT_FULL_NAME}_main
     driver: bridge 
 
 # --------

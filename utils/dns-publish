@@ -1,13 +1,23 @@
 #!/bin/bash
-source context 
+set -euo pipefail
 
-ENTRIES=$(bash utils/dns-entry) 
+# Ensure context file exists
+if [ ! -f context ]; then
+  echo "❌ Error: 'context' file not found."
+  exit 1
+fi
+source context
 
-echo ":: Publishing entries."
+echo ":: Publishing DNS entries."
 
-docker run --rm -i \
-  -v "dfst-dns-data:/zones" \
-  "$PROJECT_ALPINE_VERSION" \
-  sh -c "cat > /zones/${PROJECT_NAME}.conf" <<< "$ENTRIES"
+# Direct stream (no temp file)
+bash utils/dns-entry | docker exec -i "${COREDNS_CONTAINER_NAME}-debug" \
+  sh -c "
+    # Create file.
+    cat > /zones/${PROJECT_NAME}.conf && 
 
-echo "Done."
+    # Fix permissions
+    chmod 644 /zones/${PROJECT_NAME}.conf
+  "
+
+echo "✅ Done."

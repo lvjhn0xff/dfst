@@ -5,14 +5,24 @@ source context
 echo ":: Installing certificates (using mkcert)."
 bash utils/local/certs/issue-certs 
 
+# Create containers. 
+echo ":: Creating containers." 
+bash docker-compose create
+
 # Install back-end dependencies.
 echo ":: Installing back-end dependencies."
+bash docker-compose up -d backend
 bash utils/exec backend npm install
 
 # Install front-end web dependencies.
 echo ":: Installing front-end web dependencies."
+bash docker-compose up -d frontend-web
 bash utils/exec frontend-web npm install
 
 # Install front-end mobile dependencies.
 echo ":: Installing front-end mobile dependencies."
+bash docker-compose up -d frontend-mobile
 bash utils/exec frontend-mobile npm install
+
+# Turn off services again.
+bash utils/local/off

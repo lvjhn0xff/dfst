@@ -5,7 +5,7 @@ set -euo pipefail
 source context
 
 DOCKER_COMPOSE="bash docker-compose"   # or "docker compose"
-NETWORK="${PROJECT_NAME}_main"
+NETWORK="${PROJECT_FULL_NAME}_main"
 
 # Ensure network exists
 if ! docker network inspect "$NETWORK" &>/dev/null; then
@@ -14,7 +14,7 @@ if ! docker network inspect "$NETWORK" &>/dev/null; then
 fi
 
 # Inspect network, extract container names and IPs, and remove prefix
-docker network inspect "$NETWORK" | jq -r --arg prefix "${PROJECT_NAME}_" '
+docker network inspect "$NETWORK" | jq -r --arg prefix "${PROJECT_FULL_NAME}_" '
   .[0].Containers
   | to_entries
   | map({
