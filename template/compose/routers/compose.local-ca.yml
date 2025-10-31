@@ -1,0 +1,34 @@
+# ----------------------
+# LOCAL ROUTER (TRAEFIK)
+# ----------------------
+
+# --- Set Up Services --- # 
+services: 
+  router: 
+    container_name: ${PROJECT_FULL_NAME}_router
+    build: 
+      context: ${TEMPLATE_ROOT}/setup/router 
+      dockerfile: Dockerfile
+      target: main
+      args: 
+        TRAEFIK_VERSION: ${PROJECT_TRAEFIK_VERSION}
+    restart: always 
+    environment: 
+      - PROJECT_CA_ROOT=${PROJECT_CA_ROOT}   
+    volumes:
+      # --- Traefik Configuration --- #
+      - ${TEMPLATE_ROOT}/setup/router/local-ca/traefik.yml:/etc/traefik/traefik.yml:ro 
+      - ${TEMPLATE_ROOT}/setup/router/local-ca/dynamic.yml:/etc/traefik/dynamic.yml:ro 
+      - ${PROJECT_CA_ROOT}:/usr/local/share/ca-certificates/local-ca.crt:ro
+
+      # --- Certificates --- # 
+      - ${PROJECT_CA_ROOT}:/usr/local/share/ca-certificates/local-ca.crt:ro
+      - ${TEMPLATE_ROOT}/certs/tls.crt:/certs/tls.crt:ro
+      - ${TEMPLATE_ROOT}/certs/tls.key:/certs/tls.key:ro
+
+      # --- Docker Socket --- # 
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: sh -c "update-ca-certificates && traefik"
+    networks: 
+      - main
+  

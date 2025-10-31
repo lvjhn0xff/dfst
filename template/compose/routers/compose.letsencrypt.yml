@@ -1,0 +1,39 @@
+# -------------------------
+# LIVE ROUTER (LETSENCRYPT)
+# -------------------------
+
+# --- Set Up Services --- # 
+# ----------------------
+# LOCAL ROUTER (TRAEFIK)
+# ----------------------
+
+# --- Set Up Services --- # 
+services: 
+  router:
+    container_name: ${PROJECT_FULL_NAME}_router
+    image: traefik:${TRAEFIK_VERSION:-v3.1}
+    restart: always
+    environment:
+      - TZ=UTC
+      - TRAEFIK_CERTIFICATESRESOLVERS_LE_EMAIL=${TRAEFIK_LE_EMAIL}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # --- Traefik Configuration --- #
+      - ${TEMPLATE_ROOT}/setup/router/letsencrypt/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ${TEMPLATE_ROOT}/setup/router/letsencrypt/dynamic.yml:/etc/traefik/dynamic.yml:ro
+
+      # --- ACME Storage (persistent certs) --- #
+      - ${TEMPLATE_ROOT}/setup/router/letsencrypt/acme.json:/acme.json
+
+      # --- Docker Socket (so Traefik can detect containers) --- #
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: sh -c "
+        touch /acme.json &&
+        chmod 600 /acme.json &&
+        traefik
+      "
+    networks:
+      - main
+  

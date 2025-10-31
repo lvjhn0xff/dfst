@@ -1,5 +1,10 @@
 #!/bin/bash 
 source context 
 
+bash docker-compose up -d cert-renewer
+
+echo ":: Updating certificate."
 bash utils/exec cert-renewer bash utils/local/certs/get-certificates
-bash utils/local/certs/get-renew-date > ./certs/renew-date
+
+echo ":: Saving 'renew-date' file."
+bash utils/local/certs/get-renew-date > $TEMPLATE_ROOT/certs/renew-date

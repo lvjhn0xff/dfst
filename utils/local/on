@@ -1,7 +1,7 @@
 #!/bin/bash 
 source context 
 
-echo ":: Check if certificates should be updates." 
+echo ":: Check if certificates should be updated." 
 bash utils/local/certs/auto-update-certs
 
 echo ":: Running services in detached mode."

@@ -7,7 +7,7 @@ bash utils/local/certs/issue-certs
 
 # Create containers. 
 echo ":: Creating containers." 
-bash docker-compose create
+bash docker-compose create 
 
 # Install back-end dependencies.
 echo ":: Installing back-end dependencies."

@@ -14,7 +14,7 @@ if [ "$PROJECT_SHELL_MODE" = "cli" ] ; then
     sleep infinity
 elif [ "$PROJECT_SHELL_MODE" = "main" ] ; then
     echo "Running dev server..."
-    npm run dev -- --host 0.0.0.0 --port 80
+    HOST=0.0.0.0 PORT=8000 node ace serve --hmr 
 else 
     echo "Unknown CLI mode..."
 fi 

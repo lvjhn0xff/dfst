@@ -3,7 +3,7 @@ cd /home/project/source
 
 echo "PROJECT_SHELL_MODE=$PROJECT_SHELL_MODE"
 
-# Load secrets file. 
+# Load secrets file.
 set -a 
 source /run/secrets/.env.secrets 
 set +a
@@ -14,7 +14,7 @@ if [ "$PROJECT_SHELL_MODE" = "cli" ] ; then
     sleep infinity
 elif [ "$PROJECT_SHELL_MODE" = "main" ] ; then
     echo "Running dev server..."
-    npm run dev -- --host 0.0.0.0 --port 80
+    npm run dev -- --host 0.0.0.0 --port 8000
 else 
     echo "Unknown CLI mode..."
 fi 

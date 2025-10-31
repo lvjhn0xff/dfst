@@ -3,8 +3,8 @@
 source context
 
 docker compose \
-    -f compose/docker-compose.${PROJECT_MODE}.yml \
-    -f compose/routers/compose.${PROJECT_ROUTER}.yml \
-    --env-file .env \
+    -f ${TEMPLATE_ROOT}/compose/docker-compose.${PROJECT_MODE}.yml \
+    -f ${TEMPLATE_ROOT}/compose/routers/compose.${PROJECT_ROUTER}.yml \
+    --env-file ${PROJECT_ROOT}/.env \
     --env-file ${PROJECT_SECRETS_FILE} \
     $@

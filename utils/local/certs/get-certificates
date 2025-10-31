@@ -2,7 +2,7 @@
 source context
 
 mkcert \
-    --cert-file certs/tls.crt \
-    --key-file certs/tls.key \
+    --cert-file ./template/certs/tls.crt \
+    --key-file ./template/certs/tls.key \
     "${PROJECT_FULL_DOMAIN_LOCAL}" \
     "*.${PROJECT_FULL_DOMAIN_LOCAL}" 

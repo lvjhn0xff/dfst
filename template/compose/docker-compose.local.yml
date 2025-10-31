@@ -18,21 +18,24 @@ services:
     build: 
       context: ../setup/cert-renewer 
       dockerfile: Dockerfile
+      target: main
       args: 
         ALPINE_VERSION: ${PROJECT_ALPINE_VERSION}
+        MKCERT_VERSION: ${PROJECT_MKCERT_VERSION}
     env_file: 
-      - ../.env 
+      - ${PROJECT_ROOT}/.env 
     environment: 
       PROJECT_SHELL_MODE: ${PROJECT_SHELL_MODE:-main}
       PROJECT_USER: ${PROJECT_USER}
     user: root 
     working_dir: /home/project/context
+    restart: always
     command: tail -f /dev/null
     volumes: 
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro 
-      - ../:/home/project/context
+      - ${PROJECT_ROOT}:/home/project/context
       - ../setup/cert-renewer/crontab:/etc/crontabs/root
     networks: 
       - main
@@ -54,21 +57,27 @@ services:
       args: 
         NODE_VERSION: ${PROJECT_NODE_VERSION}
     env_file: 
-      - ../.env 
+      - ${PROJECT_ROOT}/.env 
     environment: 
       PROJECT_SHELL_MODE: ${PROJECT_SHELL_MODE:-main}
       PROJECT_USER: ${PROJECT_USER}
     working_dir: /home/project/source 
+    restart: always
     command: sh /home/project/start.sh 
     user: ${PROJECT_USER}
     volumes: 
-      - ../source/backend:/home/project/source 
-      - ../start/backend.sh:/home/project/start.sh
+      - ${PROJECT_ROOT}/source/backend:/home/project/source 
+      - ${TEMPLATE_ROOT}/start/backend.sh:/home/project/start.sh
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro 
     secrets: 
       - source: env_secrets_file
         target: /run/secrets/.env.secrets
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(${PROJECT_SUBDOMAIN_BACKEND}${PROJECT_FULL_DOMAIN_LOCAL})"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls=true"
     networks: 
       - main
 
@@ -89,21 +98,27 @@ services:
       args: 
         NODE_VERSION: ${PROJECT_NODE_VERSION}
     env_file: 
-      - ../.env 
+      - ${PROJECT_ROOT}/.env 
     environment: 
       PROJECT_SHELL_MODE: ${PROJECT_SHELL_MODE:-main}
       PROJECT_USER: ${PROJECT_USER}
     working_dir: /home/project/source
+    restart: always
     command: sh /home/project/start.sh
     user: ${PROJECT_USER}
     volumes: 
-      - ../source/frontend-web:/home/project/source 
-      - ../start/frontend-web.sh:/home/project/start.sh 
+      - ${PROJECT_ROOT}/source/frontend-web:/home/project/source 
+      - ${TEMPLATE_ROOT}/start/frontend-web.sh:/home/project/start.sh 
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro 
     secrets: 
       - source: env_secrets_file
         target: /run/secrets/.env.secrets
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(${PROJECT_SUBDOMAIN_FRONTEND_WEB}${PROJECT_FULL_DOMAIN_LOCAL})"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls=true"
     networks: 
       - main
    
@@ -119,7 +134,7 @@ services:
       args: 
         NODE_VERSION: ${PROJECT_NODE_VERSION}
     env_file: 
-      - ../.env 
+      - ${PROJECT_ROOT}/.env 
     environment: 
       PROJECT_SHELL_MODE: ${PROJECT_SHELL_MODE:-main}
       PROJECT_USER: ${PROJECT_USER}
@@ -127,13 +142,18 @@ services:
     command: sh /home/project/start.sh
     user: ${PROJECT_USER}
     volumes: 
-      - ../source/frontend-mobile:/home/project/source 
-      - ../start/frontend-mobile.sh:/home/project/start.sh 
+      - ${PROJECT_ROOT}/source/frontend-mobile:/home/project/source 
+      - ${TEMPLATE_ROOT}/start/frontend-mobile.sh:/home/project/start.sh 
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro 
     secrets: 
       - source: env_secrets_file
         target: /run/secrets/.env.secrets
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(${PROJECT_SUBDOMAIN_FRONTEND_MOBILE}${PROJECT_FULL_DOMAIN_LOCAL})"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls=true"
     networks: 
       - main
 

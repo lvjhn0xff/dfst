@@ -1,7 +1,7 @@
 #!/bin/bash 
 source context 
 
-DATE_TO_CHECK=$(cat ./certs/renew-date)
+DATE_TO_CHECK=$(cat "$TEMPLATE_ROOT/certs/renew-date")
 NOW=$(date +%s)
 TARGET=$(date -d "$DATE_TO_CHECK" +%s)
 

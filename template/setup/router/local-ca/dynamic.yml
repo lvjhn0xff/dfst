@@ -1,0 +1,15 @@
+tls:
+  certificates:
+    - certFile: /certs/tls.crt
+      keyFile: /certs/tls.key
+
+  options:
+    default:
+      minVersion: VersionTLS12
+      sniStrict: true
+
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /certs/tls.crt
+        keyFile: /certs/tls.key

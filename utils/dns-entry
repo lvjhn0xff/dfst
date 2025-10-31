@@ -1,26 +1,59 @@
 #!/bin/bash
 set -euo pipefail
+
 source context
 
-ROUTER_IP=$(bash utils/ip-of frontend-web)
+# Get router and service IPs
+ROUTER_IP=$(bash utils/ip-of router)
 SERVICE_IPS=$(bash utils/ip-list)
 
+# ----------
+# Zone 1: main project domain (public / wildcard)
+# ----------
 cat <<EOF
 ${PROJECT_FULL_DOMAIN_LOCAL} {
+    # Explicit main domain first
     hosts {
-        ${ROUTER_IP} ${PROJECT_FULL_DOMAIN_LOCAL} *.${PROJECT_FULL_DOMAIN_LOCAL}
+        ${ROUTER_IP} ${PROJECT_FULL_DOMAIN_LOCAL}
+        fallthrough
+    }
+
+    # Wildcard subdomain handling (catch-all fallback)
+    template IN A {
+        match "(.*\\.)?${PROJECT_FULL_DOMAIN_LOCAL//./\\.}\\.$"
+        answer "{{ .Name }} 60 IN A ${ROUTER_IP}"
+    }
+
+    cache 300
+    log
+    errors
+}
+EOF
+
+
+
+# ----------
+# Zone 2: internal domain (<service>.<domain>.internal)
+# ----------
+cat <<EOF
+
+${PROJECT_FULL_DOMAIN_LOCAL}.internal {
+    # Explicit service entries
+    hosts {
 EOF
 
 # Append all service entries
-echo "$SERVICE_IPS" | jq -r '
-  to_entries[] |
-  "        \(.value) \(.key).services.'${PROJECT_FULL_DOMAIN_LOCAL}'"
+echo "$SERVICE_IPS" | jq -r --arg domain "${PROJECT_FULL_DOMAIN_LOCAL}" '
+    to_entries[]
+    | "        \(.value) \(.key).\($domain).internal"
 '
 
 cat <<EOF
         fallthrough
     }
+
     cache 300
     log
+    errors
 }
 EOF
