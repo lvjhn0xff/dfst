@@ -7,4 +7,4 @@
 0       5       1       *       *       run-parts /etc/periodic/monthly
 
 # check certificates expiration
-*       *       *       *       *       cd /home/project/context && bash ./utils/local/certs/check-certs
+0       0       *       *       *       cd /home/project/context && bash ./utils/local/certs/check-certs
