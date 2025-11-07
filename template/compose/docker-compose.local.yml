@@ -22,6 +22,8 @@ services:
       args: 
         ALPINE_VERSION: ${PROJECT_ALPINE_VERSION}
         MKCERT_VERSION: ${PROJECT_MKCERT_VERSION}
+    security_opt: 
+      - no-new-privileges: true
     env_file: 
       - ${PROJECT_ROOT}/.env 
     environment: 
@@ -56,6 +58,8 @@ services:
       target: local
       args: 
         NODE_VERSION: ${PROJECT_NODE_VERSION}
+    security_opt: 
+      - no-new-privileges: true
     env_file: 
       - ${PROJECT_ROOT}/.env 
     environment: 
@@ -97,6 +101,8 @@ services:
       target: local
       args: 
         NODE_VERSION: ${PROJECT_NODE_VERSION}
+    security_opt: 
+      - no-new-privileges: true
     env_file: 
       - ${PROJECT_ROOT}/.env 
     environment: 
@@ -133,6 +139,8 @@ services:
       target: local
       args: 
         NODE_VERSION: ${PROJECT_NODE_VERSION}
+    security_opt: 
+      - no-new-privileges: true
     env_file: 
       - ${PROJECT_ROOT}/.env 
     environment: 
