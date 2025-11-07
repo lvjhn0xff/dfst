@@ -24,8 +24,6 @@ services:
         MKCERT_VERSION: ${PROJECT_MKCERT_VERSION}
     security_opt: 
       - no-new-privileges: true
-    env_file: 
-      - ${PROJECT_ROOT}/.env 
     environment: 
       PROJECT_SHELL_MODE: ${PROJECT_SHELL_MODE:-main}
       PROJECT_USER: ${PROJECT_USER}
@@ -60,8 +58,6 @@ services:
         NODE_VERSION: ${PROJECT_NODE_VERSION}
     security_opt: 
       - no-new-privileges: true
-    env_file: 
-      - ${PROJECT_ROOT}/.env 
     environment: 
       PROJECT_SHELL_MODE: ${PROJECT_SHELL_MODE:-main}
       PROJECT_USER: ${PROJECT_USER}
@@ -103,8 +99,6 @@ services:
         NODE_VERSION: ${PROJECT_NODE_VERSION}
     security_opt: 
       - no-new-privileges: true
-    env_file: 
-      - ${PROJECT_ROOT}/.env 
     environment: 
       PROJECT_SHELL_MODE: ${PROJECT_SHELL_MODE:-main}
       PROJECT_USER: ${PROJECT_USER}
@@ -141,8 +135,6 @@ services:
         NODE_VERSION: ${PROJECT_NODE_VERSION}
     security_opt: 
       - no-new-privileges: true
-    env_file: 
-      - ${PROJECT_ROOT}/.env 
     environment: 
       PROJECT_SHELL_MODE: ${PROJECT_SHELL_MODE:-main}
       PROJECT_USER: ${PROJECT_USER}
